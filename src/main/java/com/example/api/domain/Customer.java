@@ -1,51 +1,43 @@
 package com.example.api.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.persistence.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
+import lombok.Data;
 
+import java.util.ArrayList;
+import java.util.List;
+
+@Data
 @Entity
 public class Customer {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	@Column(nullable = false)
-	@NotEmpty
-	private String name;
+    @NotEmpty
+    @Column(nullable = false)
+    private String name;
 
-	@Column(nullable = false)
-	@NotEmpty
-	@Email
-	private String email;
+    @NotEmpty
+    @Email
+    @Column(nullable = false)
+    private String email;
 
-	public Long getId() {
-		return id;
-	}
+    @Valid
+    @JsonIgnoreProperties({"customer"})
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Address> addresses;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public void addAddress(Address address) {
+        if (addresses == null) {
+            addresses = new ArrayList<>();
+        }
 
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
+        address.setCustomer(this);
+        addresses.add(address);
+    }
 }
