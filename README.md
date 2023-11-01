@@ -70,3 +70,16 @@ A documentação da API gerada pelo Springdoc estará disponível em `http://loc
 ├── pom.xml
 └── README.md
 ```
+
+### Testes com Postman
+
+Uma coleção de testes para o Postman está disponível no arquivo `src/main/resources/practice-test-api.postman_collection.json`. 
+Você pode importar esse arquivo no Postman para ter acesso a um conjunto pré-configurado de testes para a API.
+
+Para importar a coleção:
+
+1. Abra o Postman e clique em "File" no menu superior.
+1. Selecione "Import".
+1. Clique em "Upload Files" e selecione o arquivo `practice-test-api.postman_collection.json`.
+1. A coleção será importada e estará disponível no Postman para uso.
+
