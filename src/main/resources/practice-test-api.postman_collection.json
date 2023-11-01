@@ -1,0 +1,379 @@
+{
+	"info": {
+		"_postman_id": "821e5d56-118a-42f3-91ff-4e2bdec57c23",
+		"name": "Practice Test API",
+		"description": "Lorem ipsum dolor ...",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "2776984"
+	},
+	"item": [
+		{
+			"name": "customers",
+			"item": [
+				{
+					"name": "find All",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/customers",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"customers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"function randomCep() {\r",
+									"  const min = 1000000;\r",
+									"  const max = 9999000;\r",
+									"  const number = Math.floor(Math.random() * (max - min + 1)) + min;\r",
+									"  const cep = number.toString().padStart(8, '0');\r",
+									"  return cep.slice(0, 5) + '-' + cep.slice(5);\r",
+									"}\r",
+									"\r",
+									"\r",
+									"pm.collectionVariables.set(\"randomCep\", randomCep());"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const responseData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 201\", () => {\r",
+									"  pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Test data of the response\", () => {\r",
+									"  pm.expect(responseData).to.be.an(\"object\");\r",
+									"  pm.expect(responseData.id).to.not.null;\r",
+									"});\r",
+									"\r",
+									"pm.collectionVariables.set(\"customerId\", responseData.id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"{{$randomFullName}}\",\n    \"email\": \"{{$randomEmail}}\",\n    \"addresses\": [\n        {\n            \"street\": \"{{$randomStreetAddress}}\",\n            \"city\": \"{{$randomCity}}\",\n            \"state\": \"{{$randomLoremWord}}\",\n            \"country\": \"{{$randomCountry}}\",\n            \"zipCode\": \"{{randomCep}}\"\n        },\n        {\n            \"street\": \"{{$randomStreetAddress}}\",\n            \"city\": \"{{$randomCity}}\",\n            \"state\": \"{{$randomLoremWord}}\",\n            \"country\": \"{{$randomCountry}}\",\n            \"zipCode\": \"{{randomCep}}\"\n        }        \n    ]\n}",
+							"options": {
+								"raw": {
+									"headerFamily": "json",
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/customers",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"customers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create with valid cep",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"function randomCep() {\r",
+									"  const min = 1000000;\r",
+									"  const max = 9999000;\r",
+									"  const number = Math.floor(Math.random() * (max - min + 1)) + min;\r",
+									"  const cep = number.toString().padStart(8, '0');\r",
+									"  return cep.slice(0, 5) + '-' + cep.slice(5);\r",
+									"}\r",
+									"\r",
+									"\r",
+									"pm.collectionVariables.set(\"randomCep\", randomCep());"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const responseData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 201\", () => {\r",
+									"  pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Test data of the response\", () => {\r",
+									"  pm.expect(responseData).to.be.an(\"object\");\r",
+									"  pm.expect(responseData.id).to.not.null;\r",
+									"});\r",
+									"\r",
+									"pm.collectionVariables.set(\"customerId\", responseData.id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"{{$randomFullName}}\",\n    \"email\": \"{{$randomEmail}}\",\n    \"addresses\": [\n        {\n            \"zipCode\": \"03136010\"\n        },\n        {\n            \"street\": \"{{$randomStreetAddress}}\",\n            \"city\": \"{{$randomCity}}\",\n            \"state\": \"{{$randomLoremWord}}\",\n            \"country\": \"{{$randomCountry}}\",\n            \"zipCode\": \"{{randomCep}}\"\n        }        \n    ]\n}",
+							"options": {
+								"raw": {
+									"headerFamily": "json",
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/customers",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"customers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create with invalid input",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"function randomCep() {\r",
+									"  const min = 1000000;\r",
+									"  const max = 9999000;\r",
+									"  const number = Math.floor(Math.random() * (max - min + 1)) + min;\r",
+									"  const cep = number.toString().padStart(8, '0');\r",
+									"  return cep.slice(0, 5) + '-' + cep.slice(5);\r",
+									"}\r",
+									"\r",
+									"\r",
+									"pm.collectionVariables.set(\"randomCep\", randomCep());"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const responseData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 201\", () => {\r",
+									"  pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Test data of the response\", () => {\r",
+									"  pm.expect(responseData).to.be.an(\"object\");\r",
+									"  pm.expect(responseData.id).to.not.null;\r",
+									"});\r",
+									"\r",
+									"pm.collectionVariables.set(\"customerId\", responseData.id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"{{$randomFullName}}\",    \n    \"addresses\": [\n        {\n            \"street\": \"{{$randomStreetAddress}}\",\n            \"city\": \"{{$randomCity}}\",\n            \"state\": \"{{$randomLoremWord}}\",\n            \"country\": \"{{$randomCountry}}\",\n            \"zipCode\": \"{{randomCep}}\"\n        },\n        {\n            \"street\": \"{{$randomStreetAddress}}\"\n        }        \n    ]\n}",
+							"options": {
+								"raw": {
+									"headerFamily": "json",
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/customers",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"customers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "find By Id",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/customers/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"customers",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{customerId}}",
+									"description": "(Required) "
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"{{$randomFullName}}\",\n    \"email\": \"{{$randomEmail}}\",\n    \"addresses\": [\n        {\n            \"street\": \"{{$randomStreetAddress}}\",\n            \"city\": \"{{$randomCity}}\",\n            \"state\": \"{{$randomLoremWord}}\",\n            \"country\": \"{{$randomCountry}}\",\n            \"zipCode\": \"{{randomCep}}\"\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"headerFamily": "json",
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/customers/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"customers",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{customerId}}",
+									"description": "(Required) "
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/customers/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"customers",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{customerId}}",
+									"description": "(Required) "
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8080"
+		},
+		{
+			"key": "randomCep",
+			"value": ""
+		},
+		{
+			"key": "customerId",
+			"value": ""
+		}
+	]
+}
